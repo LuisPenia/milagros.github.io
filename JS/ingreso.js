@@ -89,16 +89,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 
 
-
 let listaClientes = [];
 const botonSalir  = document.getElementById('salir');
 const botonName   = document.getElementById('name');
 const desplegable = document.getElementById('clientList');
+const titulo = document.getElementById('titulo');
+
 
 
 botonName.addEventListener('click', () => {
   botonName.style.display = 'none';
   desplegable.style.display = 'block';
+  //titulo.innerText = "Este es el nuevo texto";
 });
 
 botonSalir.addEventListener('click', () => {
@@ -110,7 +112,7 @@ botonSalir.addEventListener('click', () => {
 desplegable.style.display = 'none';
 
 
-document.getElementById('name').addEventListener('click', function(event) {
+botonName.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
 
   console.log("Hola EndPoint");
@@ -126,29 +128,22 @@ document.getElementById('name').addEventListener('click', function(event) {
       console.log(data); // Aquí puedes ver el array de objetos en la consola
       
       // Aquí puedes trabajar con los datos
-      const select = document.getElementById('clientList');
       data.forEach(cliente => {
 
         console.log(cliente.Cliente)
 
-        
         // Crear un elemento option para cada cliente
         const option = document.createElement('option');
         option.value = cliente.Id; // Asignar el ID como valor de la opción
         option.textContent = cliente.Cliente; // Asignar el nombre del cliente como texto de la opción
       
         // Agregar la opción al elemento select
-        select.appendChild(option);
+        desplegable.appendChild(option);
+        
       });
 
-
-
-
-
-
-
-
-
+      desplegable.style.display = 'flow';
+      titulo.innerText='Hola';
 
 
   })
@@ -157,4 +152,6 @@ document.getElementById('name').addEventListener('click', function(event) {
   });
 
 });
+
+
 
