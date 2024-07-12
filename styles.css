@@ -1,0 +1,83 @@
+* {
+    background-color:  	#005f6a;
+    color:  #fef9e7;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+  }
+
+.container{
+    border: solid,salmon,1px;
+    height: 90vh;
+}
+
+.container div{
+    height: 15vmin;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.container div h3,p{
+    padding-left: 10px;
+    height: 25px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container form{
+    text-align: center;
+    border:solid,yellow,1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container form div{
+    width: 32vmin;
+    display: flex;
+    justify-content: center;
+
+}
+
+.container input{
+    width: 50vw;
+    height: 5vh;
+    background-color: antiquewhite;
+    color: #1c2833;
+}
+
+button{
+    width: 81%;
+    height: 100%;
+    border-radius: 21px;
+    border: solid,whitesmoke,1px;
+}
+
+button:disabled {
+    background-color: #cccccc; /* Color de fondo grisáceo */
+    color: #999999; /* Color de texto grisáceo */
+    cursor: default; /* Cambiar cursor a default */
+}
+
+button {
+    transition: width 0.1s ease; /* Transición de ancho con duración 0.25s y facilidad */
+}
+  
+button:active {
+    background-color: #4CAF50; /* Color de fondo verde */
+    color: #4CAF50; /* Color de texto blanco */
+    width: 72.9%; /* Reducir el ancho al 75% */
+    height: 90%;
+    border-radius:18.9px;
+}
+
+textarea{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 85vw;
+    height: 50vh;
+    text-align: right;
+}
