@@ -12,14 +12,14 @@
 }
 
 .container div{
-    height: 15vmin;
+    height: 10vmin;
     text-align: left;
     display: flex;
     align-items: center;
     justify-content: left;
 }
 
-.container div h3,p{
+.container div h4,p{
     padding-left: 10px;
     height: 25px;
     margin: 0;
