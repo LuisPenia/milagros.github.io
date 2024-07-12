@@ -86,3 +86,75 @@ document.addEventListener('DOMContentLoaded', (e) => {
       parrafo.textContent ='Hoy:'+ fechaFormateada + ' Total: $' + valorNumericoGlobal;
   });
 });
+
+
+
+
+let listaClientes = [];
+const botonSalir  = document.getElementById('salir');
+const botonName   = document.getElementById('name');
+const desplegable = document.getElementById('clientList');
+
+
+botonName.addEventListener('click', () => {
+  botonName.style.display = 'none';
+  desplegable.style.display = 'block';
+});
+
+botonSalir.addEventListener('click', () => {
+  botonName.style.display = 'block';
+  desplegable.style.display = 'none';
+});
+
+
+desplegable.style.display = 'none';
+
+
+document.getElementById('name').addEventListener('click', function(event) {
+  event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
+
+  console.log("Hola EndPoint");
+
+  fetch('https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=getUsers')
+  .then(response => {
+      if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log(data); // Aquí puedes ver el array de objetos en la consola
+      
+      // Aquí puedes trabajar con los datos
+      const select = document.getElementById('clientList');
+      data.forEach(cliente => {
+
+        console.log(cliente.Cliente)
+
+        
+        // Crear un elemento option para cada cliente
+        const option = document.createElement('option');
+        option.value = cliente.Id; // Asignar el ID como valor de la opción
+        option.textContent = cliente.Cliente; // Asignar el nombre del cliente como texto de la opción
+      
+        // Agregar la opción al elemento select
+        select.appendChild(option);
+      });
+
+
+
+
+
+
+
+
+
+
+
+  })
+  .catch(error => {
+      console.error('Hubo un problema con la solicitud Fetch:', error);
+  });
+
+});
+
