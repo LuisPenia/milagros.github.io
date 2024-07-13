@@ -9,20 +9,23 @@
 <body>
     <main class="container">
         <div>
-            <h4 id="titulo">FIADO: </h4>
-            <p>Vecinita Susi: $45.256</p>
+            <p id="diaHoy">...</p>
+        </div>
+        <div>
+            <h4 id="titulo">Cliente: </h4>
+            <p id="adeudado">$0</p>
         </div>
 
         <form >
             <div>
                 <button id="name">NOMBRE</button>
-                <select id="clientList"></select>
+                <select id="clientList" aria-placeholder="Seleccione"></select>
             </div>
             <div><button id="detalle">DETALLE</button></div>
             <div><button id="ingreso">INGRESO</button></div>
         </form>
 
-        <textarea rows="5" cols="30" placeholder="Escribe aquí tu texto de varias líneas"></textarea>        
+        <textarea rows="5" cols="50" placeholder="Escribe aquí tu texto de varias líneas"></textarea>        
 
         <form>
             <div><button id="borrar">BORRE</button></div>
@@ -33,6 +36,8 @@
         <div>
             <p id="parrafo-a-modificar">...</p>
         </div>
+
+
     </main>
 
     <script src="./JS/ingreso.js"></script>

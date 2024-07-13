@@ -39,7 +39,7 @@ document.getElementById('confirmar').addEventListener('click', function(event) {
   var texto = textarea.value;
 
   // Reemplaza los saltos de línea con "||"
-  var textoFormateado = '||' + texto.replace(/\n/g, '||');
+  var textoFormateado = '¦¦' + texto.replace(/\n/g, '¦¦');
 
   // Guarda el texto formateado en una variable
   var textoFinal = textoFormateado;
@@ -53,7 +53,7 @@ document.getElementById('confirmar').addEventListener('click', function(event) {
 
 
   // Separar el texto por "||"
-  let elementos = textoFinal.split("||");
+  let elementos = textoFinal.split("¦¦");
 
   // Remover posibles elementos vacíos generados por la separación
   elementos = elementos.filter(elemento => elemento);
@@ -79,37 +79,87 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // Obtener el botón y el párrafo por su ID
   const botonConfirmar = document.getElementById('confirmar');
   const parrafo = document.getElementById('parrafo-a-modificar');
+  const parrafo2 = document.getElementById('diaHoy');
   
   // Añadir un listener al botón para el evento de clic
   botonConfirmar.addEventListener('click', function() {
       // Cambiar el contenido del párrafo
-      parrafo.textContent ='Hoy:'+ fechaFormateada + ' Total: $' + valorNumericoGlobal;
+      parrafo.textContent   = ' Total: $' + valorNumericoGlobal;
+      parrafo2.textContent  = 'Hoy:'      + fechaFormateada;
   });
 });
 
 
 
+function extractNumber(str) { //valores numéricos considerando el signo al final de un string y pasarlo a entero
+  const match = str.match(/-?\d+$/);
+  //    -?    permite un signo negativo opcional
+  //    \d+   busca uno o más dígitos
+  //    $     asegura que los dígitos estén al final del string
+  return match ? parseInt(match[0]) : null;
+}
+
+function formatCurrency(number) {  //transformar un valor entero a cifra de valor monetario
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(number); // ejemplo 116200 a $116.200
+}
+
+let sumaTexto = function (textoPrecios){      // ejemplo: ¦¦leche 1000¦¦pan 400¦aceite 1600¦kiko 250ml 750¦pan 250¦¦gusta 500
+  let valorEntero=0;
+  textoPrecios.split("¦¦").forEach(parte => { // ejemplo: ['', 'leche 1000', 'pan 400¦aceite 1600¦kiko 250ml 750¦pan 250', 'gusta 500']
+    parte.split("¦").forEach(elemento=>{      // ejemplo: ['pan 400','aceite 1600','kiko 250ml 750','pan 250']
+      if(extractNumber(elemento)!=null){
+        valorEntero+=extractNumber(elemento);
+      };
+    });
+  });
+  return formatCurrency(valorEntero);
+}
+
+
+
 let listaClientes = [];
-const botonSalir  = document.getElementById('salir');
-const botonName   = document.getElementById('name');
-const desplegable = document.getElementById('clientList');
-const titulo = document.getElementById('titulo');
+const botonSalir  = document.getElementById('salir'     );
+const botonName   = document.getElementById('name'      );
+const miSelect    = document.getElementById('clientList');
+const titulo      = document.getElementById('titulo'    );
+const adeudado    = document.getElementById('adeudado'    );
+
+miSelect.style.display  ='none'; // El select al inicio oculto
 
 
 
 botonName.addEventListener('click', () => {
   botonName.style.display = 'none';
-  desplegable.style.display = 'block';
+  miSelect.style.display = 'block';
   //titulo.innerText = "Este es el nuevo texto";
 });
 
 botonSalir.addEventListener('click', () => {
   botonName.style.display = 'block';
-  desplegable.style.display = 'none';
+  miSelect.style.display = 'none';
 });
 
 
-desplegable.style.display = 'none';
+
+// al seleccionar el Select
+miSelect.addEventListener('change', function() {
+ 
+  const valorSeleccionado = this.value;
+  console.log(`Valor seleccionado: ${valorSeleccionado}`);
+  console.log(listaClientes[valorSeleccionado-2]);
+  console.log(listaClientes[valorSeleccionado-2].Producto);
+  console.log(sumaTexto(listaClientes[valorSeleccionado-2].Producto));
+
+  titulo.innerText    = listaClientes[valorSeleccionado-2].Cliente;
+  adeudado.innerText  = sumaTexto(listaClientes[valorSeleccionado-2].Producto);
+
+});
+
 
 
 botonName.addEventListener('click', function(event) {
@@ -125,27 +175,22 @@ botonName.addEventListener('click', function(event) {
       return response.json();
   })
   .then(data => {
-      console.log(data); // Aquí puedes ver el array de objetos en la consola
-      
+     // Aquí puedes ver el array de objetos en la consola
+      listaClientes=data;
+      console.log(listaClientes); 
       // Aquí puedes trabajar con los datos
       data.forEach(cliente => {
 
         console.log(cliente.Cliente)
-
         // Crear un elemento option para cada cliente
         const option = document.createElement('option');
         option.value = cliente.Id; // Asignar el ID como valor de la opción
         option.textContent = cliente.Cliente; // Asignar el nombre del cliente como texto de la opción
       
         // Agregar la opción al elemento select
-        desplegable.appendChild(option);
+        miSelect.appendChild(option);
         
       });
-
-      desplegable.style.display = 'flow';
-      titulo.innerText='Hola';
-
-
   })
   .catch(error => {
       console.error('Hubo un problema con la solicitud Fetch:', error);
