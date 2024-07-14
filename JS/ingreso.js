@@ -242,39 +242,80 @@ botonName.addEventListener('click', function(event) {
 
 
 
-  // 
-  function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦leche 1000¦¦pan 400¦aceite 1600¦kiko 250ml 750¦pan 250¦¦gusta 500
-    let textoFecha    =[];
-    let textoProducto =[];
-    let productoFinal =[];
-  
-    textoFecha = textoFechas.split("¦¦");
-    textoProducto =  textoProductos.split("¦¦");
+// 
+function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦leche 1000¦¦pan 400¦aceite 1600¦kiko 250ml 750¦pan 250¦¦gusta 500
+  let textoFecha    =[];
+  let textoProducto =[];
+  let productoFinal =[];
 
-    for (let i = 0; i < textoProducto.length; i++) {
-      if (textoProducto[i]!=''){
-      productoFinal.push({fecha:textoFecha[i],producto:textoProducto[i]});
-    }}
+  textoFecha = textoFechas.split("¦¦");
+  textoProducto =  textoProductos.split("¦¦");
 
-    textoFecha=[];
+  for (let i = 0; i < textoProducto.length; i++) {
+    if (textoProducto[i]!=''){
+    productoFinal.push({fecha:textoFecha[i],producto:textoProducto[i]});
+  }}
 
-    productoFinal.forEach(elemento=>{      // ejemplo: ['pan 400','aceite 1600','kiko 250ml 750','pan 250']
-      textoProducto =  elemento.producto.split("¦");
-      textoProducto.forEach(e=>{
-        textoFecha.push({
-          fecha     : elemento.fecha,
-          producto  : e.substr(0,e.length-extractNumber(e).toString().length),
-          precio    : extractNumber(e)
-        })
+  textoFecha=[];
+
+  productoFinal.forEach(elemento=>{      // ejemplo: ['pan 400','aceite 1600','kiko 250ml 750','pan 250']
+    textoProducto =  elemento.producto.split("¦");
+    textoProducto.forEach(e=>{
+      textoFecha.push({
+        fecha     : elemento.fecha,
+        producto  : e.substr(0,e.length-extractNumber(e).toString().length),
+        precio    : extractNumber(e)
       })
     })
-  
-    console.log(textoFecha);
-    
+  })
 
-    return textoFecha
+  console.log(textoFecha);
   
+
+  return textoFecha
+
+}
+
+
+
+
+
+
+
+// funcion sin argumentos que devuelve el detalle en ele textArea 
+function agregarDatosTextArea() {
+  // Generar 50 filas de datos de ejemplo
+  const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+  //console.log(listaClientes[valorSeleccionado-2]);
+  fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+  let textoTextArea = "";
+  for (const dato of arrayDatos) {
+    textoTextArea += formatearFecha(dato.fecha) +"\t".repeat(3) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
   }
+  texarea.value = textoTextArea;
+};
+
+
+
+
+
+
+
+botonDetalle.addEventListener('click', (e) => {
+  e.preventDefault();
+  botonConfirmar.disabled = true;
+  botonIngreso.disabled   = true;
+  agregarDatosTextArea();
+
+});
+
+botonBorrar.addEventListener('click', (e) => {
+  e.preventDefault();
+  texarea.value='';
+  botonConfirmar.disabled = false;
+  botonIngreso.disabled   = false;
+
+});
 
 
 
@@ -283,50 +324,27 @@ botonName.addEventListener('click', function(event) {
 
 
 
-  function agregarDatosTextArea() {
+const tableBody = document.getElementById('myTable');
 
-    
-    // Generar 50 filas de datos de ejemplo
-    const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+// Function to create a table row
+function createTableRow(data) {
+  const row = document.createElement('tr');
+  for (const value of data) {
+    const cell = document.createElement('td');
+    cell.textContent = value;
+    row.appendChild(cell);
+  }
+  return row;
+}
 
+// Sample data (replace with your actual data source)
+const tableData = [];
+for (let i = 0; i < 50; i++) {
+  tableData.push([`Row ${i + 1} - Col 1`, `Row ${i + 1} - Col 2`, `Row ${i + 1} - Col 3`]);
+}
 
-    
-    console.log(listaClientes[valorSeleccionado-2]);
-
-
-
-    fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
-
-  
-    let textoTextArea = "";
-
-    for (const dato of arrayDatos) {
-
-      textoTextArea += formatearFecha(dato.fecha) + "\t".repeat(2) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
-    }
-  
-    texarea.value = textoTextArea;
-
-  };
-
-
-
-
-
-
-
-  botonDetalle.addEventListener('click', (e) => {
-    e.preventDefault();
-    botonConfirmar.disabled = true;
-    botonIngreso.disabled   = true;
-    agregarDatosTextArea();
-
-  });
-
-  botonBorrar.addEventListener('click', (e) => {
-    e.preventDefault();
-    texarea.value='';
-    botonConfirmar.disabled = false;
-    botonIngreso.disabled   = false;
-
-  });
+// Add rows to the table
+const rowsToShow = 10;
+for (let i = 0; i < rowsToShow; i++) {
+  tableBody.appendChild(createTableRow(tableData[i]));
+}

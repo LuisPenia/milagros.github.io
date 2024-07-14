@@ -90,3 +90,26 @@ textarea{
     text-align: right;
 
 }
+
+
+
+
+
+
+
+
+table {
+    font-size: smaller;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: left;
+}
+#myTable {
+    height: 200px; /* Adjust height as needed */
+    overflow-y: scroll; /* Enable vertical scrolling */
+}
