@@ -15,7 +15,18 @@ botonConfirmar.disabled = true;
 // Declara una variable global
 let valorNumericoGlobal = 0;
 
+const tableBody = document.getElementById('myTable');
 
+// Function to create a table row
+function createTableRow(data) {
+  const row = document.createElement('tr');
+  for (const value of data) {
+    const cell = document.createElement('td');
+    cell.textContent = value;
+    row.appendChild(cell);
+  }
+  return row;
+}
 
 
 
@@ -195,6 +206,10 @@ miSelect.addEventListener('change', function() {
 
 
 
+
+
+
+
 botonName.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
 
@@ -202,6 +217,9 @@ botonName.addEventListener('click', function(event) {
   
 
   console.log("Hola EndPoint");
+
+  
+
 
   fetch('https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=getUsers')
   .then(response => {
@@ -236,8 +254,7 @@ botonName.addEventListener('click', function(event) {
 
 
 
-
-
+//console.log('listaClientes',listaClientes);
 
 
 
@@ -270,30 +287,11 @@ function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦l
   })
 
   console.log(textoFecha);
-  
-
   return textoFecha
 
 }
 
 
-
-
-
-
-
-// funcion sin argumentos que devuelve el detalle en ele textArea 
-function agregarDatosTextArea() {
-  // Generar 50 filas de datos de ejemplo
-  const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
-  //console.log(listaClientes[valorSeleccionado-2]);
-  fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
-  let textoTextArea = "";
-  for (const dato of arrayDatos) {
-    textoTextArea += formatearFecha(dato.fecha) +"\t".repeat(3) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
-  }
-  texarea.value = textoTextArea;
-};
 
 
 
@@ -315,6 +313,8 @@ botonBorrar.addEventListener('click', (e) => {
   botonConfirmar.disabled = false;
   botonIngreso.disabled   = false;
 
+  tableBody.remove();
+
 });
 
 
@@ -324,27 +324,60 @@ botonBorrar.addEventListener('click', (e) => {
 
 
 
-const tableBody = document.getElementById('myTable');
 
-// Function to create a table row
-function createTableRow(data) {
-  const row = document.createElement('tr');
-  for (const value of data) {
-    const cell = document.createElement('td');
-    cell.textContent = value;
-    row.appendChild(cell);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// funcion sin argumentos que devuelve el detalle en ele textArea 
+function agregarDatosTextArea() {
+  // Generar 50 filas de datos de ejemplo
+  const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+  //console.log(listaClientes);
+  fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+  let textoTextArea = "";
+  for (const dato of arrayDatos) {
+    textoTextArea += formatearFecha(dato.fecha) +"\t".repeat(3) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
   }
-  return row;
-}
+  texarea.value = textoTextArea;
 
-// Sample data (replace with your actual data source)
-const tableData = [];
-for (let i = 0; i < 50; i++) {
-  tableData.push([`Row ${i + 1} - Col 1`, `Row ${i + 1} - Col 2`, `Row ${i + 1} - Col 3`]);
-}
 
-// Add rows to the table
-const rowsToShow = 5;
-for (let i = 0; i < rowsToShow; i++) {
-  tableBody.appendChild(createTableRow(tableData[i]));
-}
+
+
+
+
+  // Add rows to the table
+  for (const dato of arrayDatos) {
+    tableBody.appendChild(createTableRow([dato.fecha,dato.producto,dato.precio]));
+  }
+
+
+
+
+
+
+
+
+};
+
+
+
+
+
+
+
