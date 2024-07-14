@@ -77,7 +77,7 @@ button {
 button:active {
     background-color: #4CAF50; /* Color de fondo verde */
     color: #4CAF50; /* Color de texto blanco */
-    width: 72.9%; /* Reducir el ancho al 75% */
+    width: 90%; /* Reducir el ancho al 75% */
     height: 90%;
     border-radius:18.9px;
 }
@@ -88,4 +88,5 @@ textarea{
     width: 85vw;
     height: 40vh;
     text-align: right;
+
 }

@@ -1,17 +1,15 @@
-const botonDetalle = document.getElementById('detalle');
-const botonIngreso = document.getElementById('ingreso');
+const botonName      = document.getElementById('name'     );
+const botonDetalle   = document.getElementById('detalle'  );
+const botonIngreso   = document.getElementById('ingreso'  );
+const botonBorrar    = document.getElementById('borrar'   );
+const botonSalir     = document.getElementById('salir'    );
+const botonConfirmar = document.getElementById('confirmar');
 
 // Deshabilitar el botón inicialmente
-botonDetalle.disabled = true;
-botonIngreso.disabled = true;
-
-// Habilitar el botón después de un evento (por ejemplo, clic en otro botón)
-/*const otroBoton = document.getElementById('otroBoton');
-otroBoton.addEventListener('click', () => {
-  miBoton.disabled = false;
-});*/
-
-
+botonDetalle.disabled   = true;
+botonIngreso.disabled   = true;
+botonBorrar.disabled    = true;
+botonConfirmar.disabled = true;
 
 
 // Declara una variable global
@@ -19,14 +17,39 @@ let valorNumericoGlobal = 0;
 
 
 
-// Obtener la fecha de hoy
-const hoy = new Date();
-// Obtener el año, mes y día
-const anio = hoy.getFullYear();
-const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
-const dia = String(hoy.getDate()).padStart(2, '0'); // Obtener el día
-// Formatear la fecha en yyyy-mm-dd
-const fechaFormateada = `${anio}-${mes}-${dia}`;
+
+
+function formatearFecha(fechaString) {
+  const dias = ['Dom.', 'Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.'];
+  var hoy;
+  if(fechaString){
+    hoy = new Date(fechaString);// Obtener la fecha de hoy
+  }else{
+    hoy = new Date();// Obtener la fecha de hoy
+  };
+  const anio = hoy.getFullYear();// Obtener el año, mes y día
+  const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
+  const dia = String(hoy.getDate()).padStart(2, '0'); // Obtener el día
+  const diaSemana = dias[hoy.getDay()];
+  return `${diaSemana} ${dia}-${mes}-${anio}`;// Formatear la fecha en yyyy-mm-dd
+}
+
+
+const fechaFormateada = formatearFecha(NaN);
+
+const parrafo2 = document.getElementById('diaHoy');
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded event fired!');
+  // Your code here
+  parrafo2.textContent  = fechaFormateada;
+
+});
+
+
+
+
+
 
 
 
@@ -49,9 +72,6 @@ document.getElementById('confirmar').addEventListener('click', function(event) {
   // Muestra la fecha en formato yyyy-mm-dd
   console.log(fechaFormateada);
 
-
-
-
   // Separar el texto por "||"
   let elementos = textoFinal.split("¦¦");
 
@@ -70,25 +90,22 @@ document.getElementById('confirmar').addEventListener('click', function(event) {
   // Asigna el valor a la variable global
   valorNumericoGlobal = valorNumerico;
 
-
-
 });
 
 
 document.addEventListener('DOMContentLoaded', (e) => {
   // Obtener el botón y el párrafo por su ID
-  const botonConfirmar = document.getElementById('confirmar');
+  //const botonConfirmar = document.getElementById('confirmar');
   const parrafo = document.getElementById('parrafo-a-modificar');
-  const parrafo2 = document.getElementById('diaHoy');
+
   
   // Añadir un listener al botón para el evento de clic
   botonConfirmar.addEventListener('click', function() {
       // Cambiar el contenido del párrafo
       parrafo.textContent   = ' Total: $' + valorNumericoGlobal;
-      parrafo2.textContent  = 'Hoy:'      + fechaFormateada;
+      
   });
 });
-
 
 
 function extractNumber(str) { //valores numéricos considerando el signo al final de un string y pasarlo a entero
@@ -123,14 +140,14 @@ let sumaTexto = function (textoPrecios){      // ejemplo: ¦¦leche 1000¦¦pan 
 
 
 let listaClientes = [];
-const botonSalir  = document.getElementById('salir'     );
-const botonName   = document.getElementById('name'      );
+
+
 const miSelect    = document.getElementById('clientList');
 const titulo      = document.getElementById('titulo'    );
-const adeudado    = document.getElementById('adeudado'    );
+const adeudado    = document.getElementById('adeudado'  );
+const texarea     = document.getElementById('texarea'   );
 
 miSelect.style.display  ='none'; // El select al inicio oculto
-
 
 
 botonName.addEventListener('click', () => {
@@ -146,17 +163,33 @@ botonSalir.addEventListener('click', () => {
 
 
 
+
+
+
+
+
+
+let arrayProdcutos = [];
+let valorSeleccionado;
 // al seleccionar el Select
 miSelect.addEventListener('change', function() {
  
-  const valorSeleccionado = this.value;
-  console.log(`Valor seleccionado: ${valorSeleccionado}`);
+  valorSeleccionado = this.value;
+  /*console.log(`Valor seleccionado: ${valorSeleccionado}`);
   console.log(listaClientes[valorSeleccionado-2]);
   console.log(listaClientes[valorSeleccionado-2].Producto);
-  console.log(sumaTexto(listaClientes[valorSeleccionado-2].Producto));
+  console.log(sumaTexto(listaClientes[valorSeleccionado-2].Producto));*/
+
+  botonDetalle.disabled   = false;
+  botonConfirmar.disabled = false;
+  botonBorrar.disabled    = false;
+  botonIngreso.disabled   = false;
 
   titulo.innerText    = listaClientes[valorSeleccionado-2].Cliente;
   adeudado.innerText  = sumaTexto(listaClientes[valorSeleccionado-2].Producto);
+
+  
+
 
 });
 
@@ -164,6 +197,9 @@ miSelect.addEventListener('change', function() {
 
 botonName.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
+
+
+  
 
   console.log("Hola EndPoint");
 
@@ -177,7 +213,7 @@ botonName.addEventListener('click', function(event) {
   .then(data => {
      // Aquí puedes ver el array de objetos en la consola
       listaClientes=data;
-      console.log(listaClientes); 
+      //console.log(listaClientes); 
       // Aquí puedes trabajar con los datos
       data.forEach(cliente => {
 
@@ -200,3 +236,97 @@ botonName.addEventListener('click', function(event) {
 
 
 
+
+
+
+
+
+
+  // 
+  function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦leche 1000¦¦pan 400¦aceite 1600¦kiko 250ml 750¦pan 250¦¦gusta 500
+    let textoFecha    =[];
+    let textoProducto =[];
+    let productoFinal =[];
+  
+    textoFecha = textoFechas.split("¦¦");
+    textoProducto =  textoProductos.split("¦¦");
+
+    for (let i = 0; i < textoProducto.length; i++) {
+      if (textoProducto[i]!=''){
+      productoFinal.push({fecha:textoFecha[i],producto:textoProducto[i]});
+    }}
+
+    textoFecha=[];
+
+    productoFinal.forEach(elemento=>{      // ejemplo: ['pan 400','aceite 1600','kiko 250ml 750','pan 250']
+      textoProducto =  elemento.producto.split("¦");
+      textoProducto.forEach(e=>{
+        textoFecha.push({
+          fecha     : elemento.fecha,
+          producto  : e.substr(0,e.length-extractNumber(e).toString().length),
+          precio    : extractNumber(e)
+        })
+      })
+    })
+  
+    console.log(textoFecha);
+    
+
+    return textoFecha
+  
+  }
+
+
+
+
+
+
+
+
+  function agregarDatosTextArea() {
+
+    
+    // Generar 50 filas de datos de ejemplo
+    const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+
+
+    
+    console.log(listaClientes[valorSeleccionado-2]);
+
+
+
+    fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
+
+  
+    let textoTextArea = "";
+
+    for (const dato of arrayDatos) {
+
+      textoTextArea += formatearFecha(dato.fecha) + "\t".repeat(2) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
+    }
+  
+    texarea.value = textoTextArea;
+
+  };
+
+
+
+
+
+
+
+  botonDetalle.addEventListener('click', (e) => {
+    e.preventDefault();
+    botonConfirmar.disabled = true;
+    botonIngreso.disabled   = true;
+    agregarDatosTextArea();
+
+  });
+
+  botonBorrar.addEventListener('click', (e) => {
+    e.preventDefault();
+    texarea.value='';
+    botonConfirmar.disabled = false;
+    botonIngreso.disabled   = false;
+
+  });
