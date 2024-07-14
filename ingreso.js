@@ -344,7 +344,7 @@ for (let i = 0; i < 50; i++) {
 }
 
 // Add rows to the table
-const rowsToShow = 10;
+const rowsToShow = 5;
 for (let i = 0; i < rowsToShow; i++) {
   tableBody.appendChild(createTableRow(tableData[i]));
 }
