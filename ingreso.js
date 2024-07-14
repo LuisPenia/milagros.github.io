@@ -199,9 +199,6 @@ miSelect.addEventListener('change', function() {
   titulo.innerText    = listaClientes[valorSeleccionado-2].Cliente;
   adeudado.innerText  = sumaTexto(listaClientes[valorSeleccionado-2].Producto);
 
-  
-
-
 });
 
 
@@ -293,12 +290,6 @@ function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦l
 
 
 
-
-
-
-
-
-
 botonDetalle.addEventListener('click', (e) => {
   e.preventDefault();
   botonConfirmar.disabled = true;
@@ -320,30 +311,6 @@ botonBorrar.addEventListener('click', (e) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // funcion sin argumentos que devuelve el detalle en ele textArea 
 function agregarDatosTextArea() {
   // Generar 50 filas de datos de ejemplo
@@ -356,28 +323,9 @@ function agregarDatosTextArea() {
   }
   texarea.value = textoTextArea;
 
-
-
-
-
-
   // Add rows to the table
   for (const dato of arrayDatos) {
-    tableBody.appendChild(createTableRow([dato.fecha,dato.producto,dato.precio]));
+    tableBody.appendChild(createTableRow([formatearFecha(dato.fecha),dato.producto,dato.precio]));
   }
 
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
