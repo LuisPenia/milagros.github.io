@@ -15,7 +15,7 @@
 }
 
 .container{
-    border: solid,salmon,1px;
+    border: solid,paleturquoise,1px;
     height: 90vh;
 }
 
@@ -39,7 +39,7 @@
 
 .container form{
 
-    border:solid,yellow,1px;
+    border:solid,black,1px;
     display: flex;
     justify-content: space-between;
 }
