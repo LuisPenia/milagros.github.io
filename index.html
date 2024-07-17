@@ -10,13 +10,27 @@
 
 <body>
     <main class="container">
+
         <div>
-            <p id="diaHoy">...</p>
-        </div>
-        <div>
+            
             <h4 id="titulo">Cliente: </h4>
             <p id="adeudado">$0</p>
         </div>
+
+        <form id="form1" onsubmit="handleSubmitForm1(event)" method="post">
+                
+                <section>
+                    <p>ID</p>
+                    <div>
+                    <input class="inputID" id="idCliente" name="Name" type="text"/>
+                    </div>
+                    <p id="diaHoy"></p> 
+                    <input id="inputDate" name="LastName" type="text"/>
+                </section>
+
+            <textarea id="texarea" rows="5" cols="50" placeholder="Escribe aquí tu texto de varias líneas" name="Email" type="text" ></textarea>
+            <input type="submit" />
+        </form>
 
         <form >
             <div>
@@ -27,21 +41,22 @@
             <div><button id="ingreso">INGRESO</button></div>
         </form>
 
+        <div class="bloqueIni" id="bloqueInicial">
+            <p>Bienvenido</p>
+            <p>Aplicacion de Fiados</p>
+        </div>
 
-        <textarea id="texarea" rows="5" cols="50" placeholder="Escribe aquí tu texto de varias líneas"></textarea>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Column 1</th>
-                    <th>Column 2</th>
-                    <th>Column 3</th>
-                </tr>
-            </thead>
+        <table class="tablaTot" id="tablaTotales">
             <tbody id="myTable">
-                </tbody>
+                <thead>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>PROD.</th>
+                        <th>PRECIO</th>
+                    </tr>
+                </thead>
+            </tbody>
         </table>
-
 
         <form>
             <div><button id="borrar">BORRE</button></div>
@@ -53,20 +68,9 @@
             <p id="parrafo-a-modificar">...</p>
         </div>
 
-
     </main>
 
-
-
-
-
-
-
-
-
-
     <script src="./ingreso.js"></script>
-
 
 </body>
 </html>

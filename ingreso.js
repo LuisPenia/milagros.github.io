@@ -5,17 +5,36 @@ const botonBorrar    = document.getElementById('borrar'   );
 const botonSalir     = document.getElementById('salir'    );
 const botonConfirmar = document.getElementById('confirmar');
 
+const tableBody   = document.getElementById('myTable'     );
+const miSelect    = document.getElementById('clientList'  );
+const titulo      = document.getElementById('titulo'      );
+const adeudado    = document.getElementById('adeudado'    );
+const texarea     = document.getElementById('texarea'     );
+const formIngreso = document.getElementById('form1'       );
+const tablaTot    = document.getElementById('tablaTotales');
+const form1       = document.getElementById('form1');
+
+
 // Deshabilitar el botón inicialmente
 botonDetalle.disabled   = true;
 botonIngreso.disabled   = true;
 botonBorrar.disabled    = true;
 botonConfirmar.disabled = true;
 
+formIngreso.style.display = 'none';
+tablaTot.style.display    = 'none';
+
+
+window.onload=function(){
+  //texarea.style.display   = 'none';
+  //tableBody.style.display = 'none'
+}
+
 
 // Declara una variable global
 let valorNumericoGlobal = 0;
 
-const tableBody = document.getElementById('myTable');
+
 
 // Function to create a table row
 function createTableRow(data) {
@@ -30,8 +49,9 @@ function createTableRow(data) {
 
 
 
-function formatearFecha(fechaString) {
-  const dias = ['Dom.', 'Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.'];
+function formatearFecha(fechaString,diaBolean) {
+  const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const meses = ['Ene.', 'Feb.', 'Mar.', 'Abr.', 'May.', 'Jun.', 'Jul.','Ago.','Sep.','Oct.','Nov.','Dic.'];
   var hoy;
   if(fechaString){
     hoy = new Date(fechaString);// Obtener la fecha de hoy
@@ -42,26 +62,26 @@ function formatearFecha(fechaString) {
   const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
   const dia = String(hoy.getDate()).padStart(2, '0'); // Obtener el día
   const diaSemana = dias[hoy.getDay()];
-  return `${diaSemana} ${dia}-${mes}-${anio}`;// Formatear la fecha en yyyy-mm-dd
+  const mesAnio = meses[hoy.getMonth()];
+  if(diaBolean==1){return `${diaSemana}`};
+  if(diaBolean==2){return `${dia}-${mes}-${anio}`};
+  return `${diaSemana} ${dia}-${mesAnio}`;// Formatear la fecha en yyyy-mm-dd
 }
 
 
 const fechaFormateada = formatearFecha(NaN);
 
-const parrafo2 = document.getElementById('diaHoy');
+const inputFecha  = document.getElementById('inputDate' );
+const inputID     = document.getElementById('idCliente' ); 
+const parrafo2    = document.getElementById('diaHoy'    );
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOMContentLoaded event fired!');
   // Your code here
-  parrafo2.textContent  = fechaFormateada;
-
+  parrafo2.textContent  = formatearFecha(NaN,1);
+  inputFecha.value      = formatearFecha(NaN,2);
+  //inputFecha.disabled = true;
 });
-
-
-
-
-
-
 
 
 
@@ -149,14 +169,8 @@ let sumaTexto = function (textoPrecios){      // ejemplo: ¦¦leche 1000¦¦pan 
 }
 
 
-
 let listaClientes = [];
 
-
-const miSelect    = document.getElementById('clientList');
-const titulo      = document.getElementById('titulo'    );
-const adeudado    = document.getElementById('adeudado'  );
-const texarea     = document.getElementById('texarea'   );
 
 miSelect.style.display  ='none'; // El select al inicio oculto
 
@@ -174,12 +188,6 @@ botonSalir.addEventListener('click', () => {
 
 
 
-
-
-
-
-
-
 let arrayProdcutos = [];
 let valorSeleccionado;
 // al seleccionar el Select
@@ -192,31 +200,22 @@ miSelect.addEventListener('change', function() {
   console.log(sumaTexto(listaClientes[valorSeleccionado-2].Producto));*/
 
   botonDetalle.disabled   = false;
-  botonConfirmar.disabled = false;
+  botonConfirmar.disabled = true;
   botonBorrar.disabled    = false;
   botonIngreso.disabled   = false;
 
   titulo.innerText    = listaClientes[valorSeleccionado-2].Cliente;
   adeudado.innerText  = sumaTexto(listaClientes[valorSeleccionado-2].Producto);
 
+  inputID.value = listaClientes[valorSeleccionado-2].Id;
+
 });
-
-
-
-
-
 
 
 botonName.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
 
-
-  
-
   console.log("Hola EndPoint");
-
-  
-
 
   fetch('https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=getUsers')
   .then(response => {
@@ -250,11 +249,7 @@ botonName.addEventListener('click', function(event) {
 });
 
 
-
 //console.log('listaClientes',listaClientes);
-
-
-
 
 // 
 function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦leche 1000¦¦pan 400¦aceite 1600¦kiko 250ml 750¦pan 250¦¦gusta 500
@@ -290,10 +285,27 @@ function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦l
 
 
 
+botonIngreso.addEventListener('click', (e) => {
+  e.preventDefault();
+  form1.style.display='block';
+  tablaTot.style.display='none';
+  botonBorrar.disabled    = false;
+
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild);
+  }
+
+});
+
+
+
 botonDetalle.addEventListener('click', (e) => {
   e.preventDefault();
+  form1.style.display='none';
+  tablaTot.style.display='block';
   botonConfirmar.disabled = true;
-  botonIngreso.disabled   = true;
+  botonIngreso.disabled   = false;
+  botonBorrar.disabled    = true;
   agregarDatosTextArea();
 
 });
@@ -301,14 +313,15 @@ botonDetalle.addEventListener('click', (e) => {
 botonBorrar.addEventListener('click', (e) => {
   e.preventDefault();
   texarea.value='';
-  botonConfirmar.disabled = false;
+  botonConfirmar.disabled = true;
   botonIngreso.disabled   = false;
+  tablaTot.style.display = 'none';
 
-  tableBody.remove();
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild);
+  }
 
 });
-
-
 
 
 // funcion sin argumentos que devuelve el detalle en ele textArea 
@@ -317,15 +330,86 @@ function agregarDatosTextArea() {
   const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
   //console.log(listaClientes);
   fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
-  let textoTextArea = "";
+  /*let textoTextArea = "";
   for (const dato of arrayDatos) {
     textoTextArea += formatearFecha(dato.fecha) +"\t".repeat(3) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
   }
-  texarea.value = textoTextArea;
-
+  texarea.value = textoTextArea;*/
   // Add rows to the table
   for (const dato of arrayDatos) {
     tableBody.appendChild(createTableRow([formatearFecha(dato.fecha),dato.producto,dato.precio]));
   }
 
 };
+
+
+
+botonConfirmar.addEventListener('click', function(event) {
+  event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
+  
+  console.log("Hola POST");
+
+  const data = {
+  Id: 8,
+  Fecha: "2024-07-30",
+  Producto: "pan 2000, aceite 1600, kiko 250ml 980,pan 750"
+  };
+
+  console.log();
+  
+  const url = 'https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=doPost'; // Reemplaza esto con la URL real de tu endpoint de Google Apps Script
+
+  fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams(data)
+  })
+
+  .then(response => response.text())
+  .then(result => {
+    console.log('Éxito:', result);
+  })
+
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+});
+
+
+
+
+const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
+form1SubmitButton.addEventListener("click", handleSubmitForm1);
+
+
+function handleSubmitForm1(e) {
+
+  e.preventDefault();
+  console.log('dentro del submit');
+
+  const formEle = document.querySelector("form");
+  const formDatab = new FormData(formEle);
+
+  fetch(
+    //"https://script.google.com/macros/s/AKfycbwJCA0KZPHtTZONu7MUonjv2csv-CaY_Dvm1CUqHDSJoWcNJh4ndn0mYPHm7RbczoYdtw/exec",
+    "https://script.google.com/macros/s/AKfycbyXrFguwfKLyD138I9PdhebbOrUH0U4weOjY7lqihimUAv5LOCUWqz1IcGHLeYlo0z2/exec",
+    {
+      method: "POST",
+      body: formDatab
+    }
+  )
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+};
+
+
