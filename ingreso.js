@@ -60,10 +60,10 @@ function formatearFecha(fechaString,diaBolean) {
     hoy = new Date();// Obtener la fecha de hoy
   };
   const anio = hoy.getFullYear();// Obtener el año, mes y día
-  const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
-  const dia = String(hoy.getDate()).padStart(2, '0'); // Obtener el día
-  const diaSemana = dias[hoy.getDay()];
-  const mesAnio = meses[hoy.getMonth()];
+  const mes = String(hoy.getUTCMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
+  const dia = String(hoy.getUTCDate()).padStart(2, '0'); // Obtener el día
+  const diaSemana = dias[hoy.getUTCDay()];
+  const mesAnio = meses[hoy.getUTCMonth()];
   if(diaBolean==1){return `${diaSemana}`};
   if(diaBolean==2){return `${dia}-${mes}-${anio}`};
   return `${diaSemana} ${dia}-${mesAnio}`;// Formatear la fecha en yyyy-mm-dd
@@ -232,7 +232,8 @@ botonName.addEventListener('click', function(event) {
 
   console.log("Hola EndPoint");
 
-  fetch('https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=getUsers')
+  fetch('https://script.google.com/macros/s/AKfycbx1HZpyuxKw2NsjNMvV9Ivyqe0FNgksGhyd9q9ZPiLjwllecql_dqslfdYgvXgHIb-i/exec?action=getUsers')
+  //fetch('https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=getUsers')
   .then(response => {
       if (!response.ok) {
       throw new Error('Network response was not ok ' + response.statusText);
@@ -370,7 +371,7 @@ function agregarDatosTextArea() {
 };
 
 
-
+/*
 botonConfirmar.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
   
@@ -404,7 +405,7 @@ botonConfirmar.addEventListener('click', function(event) {
     console.error('Error:', error);
   });
 
-});
+});*/
 
 
 
@@ -414,8 +415,10 @@ form1SubmitButton.addEventListener("click", handleSubmitForm1);
 
 
 function handleSubmitForm1(e) {
-
   e.preventDefault();
+
+  texarea.value = texarea.value.replace(/\n/g, '¦');
+
   console.log('dentro del submit');
   parrafo.innerText="espere...";
 
@@ -424,8 +427,9 @@ function handleSubmitForm1(e) {
 
   fetch(
     //"https://script.google.com/macros/s/AKfycbwJCA0KZPHtTZONu7MUonjv2csv-CaY_Dvm1CUqHDSJoWcNJh4ndn0mYPHm7RbczoYdtw/exec",
-    //"https://script.google.com/macros/s/AKfycbyXrFguwfKLyD138I9PdhebbOrUH0U4weOjY7lqihimUAv5LOCUWqz1IcGHLeYlo0z2/exec",
-    "https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=doPost",
+    //"https://script.google.com/macros/s/AKfycbyXrFguwfKLyD138I9PdhebbOrUH0U4weOjY7lqihimUAv5LOCUWqz1IcGHLeYlo0z2/exec", // este postea
+    //"https://script.google.com/macros/s/AKfycbwgmf7JUq_L_36K6GzbT_5agdWr9qooc_Q0jsqcdY0dPUzDCocwTjQB5vDDTYsJQHk/exec",
+    "https://script.google.com/macros/s/AKfycbxeQ8nUgqUuWyWH9F7skjbEzmWW3aNOd_MJRy-_Mcu94Ix6z_DvUNYM2ZzC5mfJJDMW/exec",
 
     {
       method: "POST",
