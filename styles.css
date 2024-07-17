@@ -7,7 +7,11 @@
   }
 
 .bloqueIni{
-    height: 500px;
+    margin-top: 25px;
+    margin-bottom: 150px;
+    display: flex;
+    flex-direction: column;
+
 }
 
 .container{

@@ -13,7 +13,8 @@ const texarea     = document.getElementById('texarea'     );
 const formIngreso = document.getElementById('form1'       );
 const tablaTot    = document.getElementById('tablaTotales');
 const form1       = document.getElementById('form1');
-
+const parrafo     = document.getElementById('parrafo-a-modificar');
+const bienvenida  = document.getElementById('bloqueInicial');
 
 // Deshabilitar el botón inicialmente
 botonDetalle.disabled   = true;
@@ -127,7 +128,7 @@ document.getElementById('confirmar').addEventListener('click', function(event) {
 document.addEventListener('DOMContentLoaded', (e) => {
   // Obtener el botón y el párrafo por su ID
   //const botonConfirmar = document.getElementById('confirmar');
-  const parrafo = document.getElementById('parrafo-a-modificar');
+  
 
   
   // Añadir un listener al botón para el evento de clic
@@ -178,7 +179,7 @@ miSelect.style.display  ='none'; // El select al inicio oculto
 botonName.addEventListener('click', () => {
   botonName.style.display = 'none';
   miSelect.style.display = 'block';
-  //titulo.innerText = "Este es el nuevo texto";
+  titulo.innerText = "Este es el nuevo texto";
 });
 
 botonSalir.addEventListener('click', () => {
@@ -191,6 +192,9 @@ botonSalir.addEventListener('click', () => {
 let arrayProdcutos = [];
 let valorSeleccionado;
 // al seleccionar el Select
+
+
+
 miSelect.addEventListener('change', function() {
  
   valorSeleccionado = this.value;
@@ -203,17 +207,28 @@ miSelect.addEventListener('change', function() {
   botonConfirmar.disabled = true;
   botonBorrar.disabled    = false;
   botonIngreso.disabled   = false;
+  bienvenida.style.display='none';
 
   titulo.innerText    = listaClientes[valorSeleccionado-2].Cliente;
   adeudado.innerText  = sumaTexto(listaClientes[valorSeleccionado-2].Producto);
 
   inputID.value = listaClientes[valorSeleccionado-2].Id;
 
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild);
+  }
+
+  agregarDatosTextArea();
+
+  parrafo.innerText = "Puede optar por DETALLE o INGRESO";
+
 });
 
 
 botonName.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
+
+  bienvenida.innerText = "espere carga de datos..."
 
   console.log("Hola EndPoint");
 
@@ -239,6 +254,8 @@ botonName.addEventListener('click', function(event) {
       
         // Agregar la opción al elemento select
         miSelect.appendChild(option);
+
+        bienvenida.innerText = "Seleccione a uno de sus clientes"
         
       });
   })
@@ -295,6 +312,10 @@ botonIngreso.addEventListener('click', (e) => {
     tableBody.removeChild(tableBody.firstChild);
   }
 
+  parrafo.innerText = "ingese productos y precione Enviar"
+
+  botonIngreso.disabled = true;
+
 });
 
 
@@ -306,7 +327,13 @@ botonDetalle.addEventListener('click', (e) => {
   botonConfirmar.disabled = true;
   botonIngreso.disabled   = false;
   botonBorrar.disabled    = true;
+  
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild);
+  }
   agregarDatosTextArea();
+
+  parrafo.innerText="En pantalla los movimientos de " + listaClientes[valorSeleccionado-2].Cliente;
 
 });
 
@@ -390,13 +417,16 @@ function handleSubmitForm1(e) {
 
   e.preventDefault();
   console.log('dentro del submit');
+  parrafo.innerText="espere...";
 
   const formEle = document.querySelector("form");
   const formDatab = new FormData(formEle);
 
   fetch(
     //"https://script.google.com/macros/s/AKfycbwJCA0KZPHtTZONu7MUonjv2csv-CaY_Dvm1CUqHDSJoWcNJh4ndn0mYPHm7RbczoYdtw/exec",
-    "https://script.google.com/macros/s/AKfycbyXrFguwfKLyD138I9PdhebbOrUH0U4weOjY7lqihimUAv5LOCUWqz1IcGHLeYlo0z2/exec",
+    //"https://script.google.com/macros/s/AKfycbyXrFguwfKLyD138I9PdhebbOrUH0U4weOjY7lqihimUAv5LOCUWqz1IcGHLeYlo0z2/exec",
+    "https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=doPost",
+
     {
       method: "POST",
       body: formDatab
@@ -405,9 +435,13 @@ function handleSubmitForm1(e) {
   .then((res) => res.json())
   .then((data) => {
     console.log(data);
+    parrafo.innerText="Datos enviados exitosamente";
+    texarea.value='';
   })
   .catch((error) => {
     console.log(error);
+    texarea.value='';
+    parrafo.innerText="Se enviaron los Datos";
   });
 
 };
