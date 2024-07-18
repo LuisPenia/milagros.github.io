@@ -411,10 +411,11 @@ botonConfirmar.addEventListener('click', function(event) {
 function validarFormulario(event) {
   const texto = event;
   const lineas = texto.split('\n');
-  const regexLinea = /^[a-zA-Z0-9 ]{1,25} [0-9]{1,9}$/;
+  //const regexLinea = /^[a-zA-Z0-9 ]{1,25} [0-9]{1,9}$/;
+  const regexLinea = /^[a-zA-Z0-9 ]{1,25}(?<!\d) [0-9]{1,9}$/;
 
-  if (lineas.length>11){
-    alert(`Esta ingresando demaciados productos, solo 10 por vez`);
+  if (lineas.length>21){
+    alert(`Esta ingresando demaciados productos, solo 20 por vez`);
     event.preventDefault();
     return;
   }
@@ -444,6 +445,13 @@ function validarFormulario(event) {
               return;
           }
       }
+    
+      if (precio < 10) {
+        alert(`El precio de: "${linea.replace(/\s+\d+$/, '')}", es muy bajo. Corregir o liminar este item`);
+        event.preventDefault();
+        return;
+      }
+
   }
 }
 
