@@ -79,7 +79,7 @@ const parrafo2    = document.getElementById('diaHoy'    );
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOMContentLoaded event fired!');
   // Your code here
-  parrafo2.textContent  = formatearFecha(NaN,1);
+  parrafo2.textContent  = formatearFecha(NaN,1)+" :";
   inputFecha.value      = formatearFecha(NaN,2);
   //inputFecha.disabled = true;
 });
