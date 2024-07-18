@@ -408,15 +408,55 @@ botonConfirmar.addEventListener('click', function(event) {
 });*/
 
 
+function validarFormulario(event) {
+  const texto = event;
+  const lineas = texto.split('\n');
+  const regexLinea = /^[a-zA-Z0-9 ]{1,25} [0-9]{1,9}$/;
+
+  if (lineas.length>11){
+    alert(`Esta ingresando demaciados productos, solo 10 por vez`);
+    event.preventDefault();
+    return;
+  }
+
+  for (let i = 0; i < lineas.length; i++) {
+      const linea = lineas[i].trim();
+
+      if (!regexLinea.test(linea)) {
+          alert(`Línea ${i + 1} no cumple con el formato requerido.`);
+          event.preventDefault();
+          return;
+      }
+
+      const partes = linea.split(' ');
+      const descripcion = partes.slice(0, -1).join(' ');
+      const precio = parseInt(partes[partes.length - 1]);
+
+      if (descripcion.length > 25) {
+          alert(`La descripción del producto en la línea ${i + 1} excede los 25 caracteres permitidos.`);
+          event.preventDefault();
+          return;
+      }
+
+      if (precio > 10000) {
+          if (!confirm(`El precio de: "${linea.replace(/\s+\d+$/, '')}", excede los 10000. ¿Deseas continuar?`)) {
+              event.preventDefault();
+              return;
+          }
+      }
+  }
+}
 
 
-const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
-form1SubmitButton.addEventListener("click", handleSubmitForm1);
+  
+  const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
+  form1SubmitButton.addEventListener("click", handleSubmitForm1,validarFormulario);
 
 
 function handleSubmitForm1(e) {
   e.preventDefault();
 
+  validarFormulario(texarea.value);
   texarea.value = texarea.value.replace(/\n/g, '¦');
 
   console.log('dentro del submit');
