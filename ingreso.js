@@ -89,38 +89,24 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('confirmar').addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
 
-  // Captura el texto del textarea
-  var textarea = document.querySelector('textarea');
+  var textarea = document.querySelector('textarea');        // Captura el texto del textarea
   var texto = textarea.value;
+  var textoFormateado = '¦¦' + texto.replace(/\n/g, '¦¦');  // Reemplaza los saltos de línea con "||"
+  var textoFinal = textoFormateado;                         // Guarda el texto formateado en una variable
 
-  // Reemplaza los saltos de línea con "||"
-  var textoFormateado = '¦¦' + texto.replace(/\n/g, '¦¦');
+  console.log(textoFinal);                  // Muestra el texto formateado en la consola para verificación
+  console.log(fechaFormateada);             // Muestra la fecha en formato yyyy-mm-dd
 
-  // Guarda el texto formateado en una variable
-  var textoFinal = textoFormateado;
+  let elementos = textoFinal.split("¦¦");               // Separar el texto por "||"
+  elementos = elementos.filter(elemento => elemento);   // Remover posibles elementos vacíos generados por la separación
+  let valorNumerico = 0;                                // Recorrer el array y mostrar cada elemento
 
-  // Puedes hacer algo con la variable textoFinal aquí
-  console.log(textoFinal); // Muestra el texto formateado en la consola para verificación
-  // Muestra la fecha en formato yyyy-mm-dd
-  console.log(fechaFormateada);
-
-  // Separar el texto por "||"
-  let elementos = textoFinal.split("¦¦");
-
-  // Remover posibles elementos vacíos generados por la separación
-  elementos = elementos.filter(elemento => elemento);
-
-  let valorNumerico = 0;
-  // Recorrer el array y mostrar cada elemento
-  elementos.forEach(elemento => {
-    // Separar por espacio y tomar el último elemento (el valor numérico)
+  elementos.forEach(elemento => {    // Separar por espacio y tomar el último elemento (el valor numérico)
     let partes = elemento.split(" ");
     valorNumerico = valorNumerico + parseInt(partes[partes.length - 1], 10);
-    //console.log(valorNumerico);
   });
 
-  // Asigna el valor a la variable global
-  valorNumericoGlobal = valorNumerico;
+  valorNumericoGlobal = valorNumerico;  // Asigna el valor a la variable global
 
 });
 
@@ -179,7 +165,7 @@ miSelect.style.display  ='none'; // El select al inicio oculto
 botonName.addEventListener('click', () => {
   botonName.style.display = 'none';
   miSelect.style.display = 'block';
-  titulo.innerText = "Este es el nuevo texto";
+  titulo.innerText = "...";
 });
 
 botonSalir.addEventListener('click', () => {
@@ -191,17 +177,11 @@ botonSalir.addEventListener('click', () => {
 
 let arrayProdcutos = [];
 let valorSeleccionado;
-// al seleccionar el Select
-
 
 
 miSelect.addEventListener('change', function() {
  
   valorSeleccionado = this.value;
-  /*console.log(`Valor seleccionado: ${valorSeleccionado}`);
-  console.log(listaClientes[valorSeleccionado-2]);
-  console.log(listaClientes[valorSeleccionado-2].Producto);
-  console.log(sumaTexto(listaClientes[valorSeleccionado-2].Producto));*/
 
   botonDetalle.disabled   = false;
   botonConfirmar.disabled = true;
@@ -243,7 +223,6 @@ botonName.addEventListener('click', function(event) {
   .then(data => {
      // Aquí puedes ver el array de objetos en la consola
       listaClientes=data;
-      //console.log(listaClientes); 
       // Aquí puedes trabajar con los datos
       data.forEach(cliente => {
 
@@ -266,10 +245,7 @@ botonName.addEventListener('click', function(event) {
 
 });
 
-
-//console.log('listaClientes',listaClientes);
-
-// 
+ 
 function fechaProductoPrecio(textoFechas,textoProductos){      // ejemplo: ¦¦leche 1000¦¦pan 400¦aceite 1600¦kiko 250ml 750¦pan 250¦¦gusta 500
   let textoFecha    =[];
   let textoProducto =[];
@@ -313,8 +289,7 @@ botonIngreso.addEventListener('click', (e) => {
     tableBody.removeChild(tableBody.firstChild);
   }
 
-  parrafo.innerText = "ingese productos y precione Enviar"
-
+  parrafo.innerText = "ingese productos y precione Enviar";
   botonIngreso.disabled = true;
 
 });
@@ -356,62 +331,32 @@ botonBorrar.addEventListener('click', (e) => {
 function agregarDatosTextArea() {
   // Generar 50 filas de datos de ejemplo
   const arrayDatos = fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
-  //console.log(listaClientes);
-  fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto);
-  /*let textoTextArea = "";
-  for (const dato of arrayDatos) {
-    textoTextArea += formatearFecha(dato.fecha) +"\t".repeat(3) + dato.producto +" ".repeat(8-dato.precio.toString().length) + dato.precio+ "\n";
-  }
-  texarea.value = textoTextArea;*/
-  // Add rows to the table
-  for (const dato of arrayDatos) {
+  fechaProductoPrecio(listaClientes[valorSeleccionado-2].Fecha,listaClientes[valorSeleccionado-2].Producto); //los hiperString de Fecha y Producto
+
+  for (const dato of arrayDatos) { // Add rows to the table
     tableBody.appendChild(createTableRow([formatearFecha(dato.fecha),dato.producto,dato.precio]));
   }
 
 };
 
 
-/*
-botonConfirmar.addEventListener('click', function(event) {
-  event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
-  
-  console.log("Hola POST");
+function manejoEspacios(event){
+  let lineas = event.split('\n');
+  const arraySinCadenasVacias = lineas.filter(cadena => cadena !== "");
+  lineas = arraySinCadenasVacias;
 
-  const data = {
-  Id: 8,
-  Fecha: "2024-07-30",
-  Producto: "pan 2000, aceite 1600, kiko 250ml 980,pan 750"
-  };
-
-  console.log();
-  
-  const url = 'https://script.google.com/macros/s/AKfycbwmlQscuxe7GM3tRKLkOkK-soKVjJugOXrBzk4oy66F0McAz7UsXwv8MMbM4RPlNIu0/exec?action=doPost'; // Reemplaza esto con la URL real de tu endpoint de Google Apps Script
-
-  fetch(url, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams(data)
-  })
-
-  .then(response => response.text())
-  .then(result => {
-    console.log('Éxito:', result);
-  })
-
-  .catch(error => {
-    console.error('Error:', error);
-  });
-
-});*/
-
+  console.log("linea");
+  console.log(lineas);
+  for (let i = 0; i < lineas.length; i++) {
+    let linea = lineas[i].trim();
+    linea = linea.replace(/\s+/g, " ");
+    lineas[i]=linea;
+  }
+  return lineas.join('\n');
+}
 
 function validarFormulario(event) {
-  const texto = event;
-  const lineas = texto.split('\n');
-  //const regexLinea = /^[a-zA-Z0-9 ]{1,25} [0-9]{1,9}$/;
+  const lineas = event.split('\n');
   const regexLinea = /^[a-zA-Z0-9 ]{1,25}(?<!\d) [0-9]{1,9}$/;
 
   if (lineas.length>21){
@@ -421,7 +366,7 @@ function validarFormulario(event) {
   }
 
   for (let i = 0; i < lineas.length; i++) {
-      const linea = lineas[i].trim();
+      let linea = lineas[i].trim();
 
       if (!regexLinea.test(linea)) {
           alert(`Línea ${i + 1} no cumple con el formato requerido.`);
@@ -440,14 +385,20 @@ function validarFormulario(event) {
       }
 
       if (precio > 10000) {
-          if (!confirm(`El precio de: "${linea.replace(/\s+\d+$/, '')}", excede los 10000. ¿Deseas continuar?`)) {
+          if (!confirm(`El precio de: "${linea.replace(/\s+\d+$/, '')}", de la línea "${i + 1}", excede los 10000. ¿Deseas continuar?`)) {
               event.preventDefault();
               return;
           }
       }
     
-      if (precio < 10) {
-        alert(`El precio de: "${linea.replace(/\s+\d+$/, '')}", es muy bajo. Corregir o liminar este item`);
+      if (precio < 50) {
+        alert(`El precio de: "${linea.replace(/\s+\d+$/, '')}", de la línea "${i + 1}", es muy bajo como minimo $50. Corregir o liminar este item`);
+        event.preventDefault();
+        return;
+      }
+    
+      if (precio > 50000) {
+        alert(`El precio de: "${linea.replace(/\s+\d+$/, '')}", es demaciado alto como maximo $50.000. Corregir o liminar este item`);
         event.preventDefault();
         return;
       }
@@ -455,15 +406,13 @@ function validarFormulario(event) {
   }
 }
 
-
-  
   const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
   form1SubmitButton.addEventListener("click", handleSubmitForm1,validarFormulario);
-
 
 function handleSubmitForm1(e) {
   e.preventDefault();
 
+  texarea.value = manejoEspacios(texarea.value);
   validarFormulario(texarea.value);
   texarea.value = texarea.value.replace(/\n/g, '¦');
 
@@ -474,9 +423,6 @@ function handleSubmitForm1(e) {
   const formDatab = new FormData(formEle);
 
   fetch(
-    //"https://script.google.com/macros/s/AKfycbwJCA0KZPHtTZONu7MUonjv2csv-CaY_Dvm1CUqHDSJoWcNJh4ndn0mYPHm7RbczoYdtw/exec",
-    //"https://script.google.com/macros/s/AKfycbyXrFguwfKLyD138I9PdhebbOrUH0U4weOjY7lqihimUAv5LOCUWqz1IcGHLeYlo0z2/exec", // este postea
-    //"https://script.google.com/macros/s/AKfycbwgmf7JUq_L_36K6GzbT_5agdWr9qooc_Q0jsqcdY0dPUzDCocwTjQB5vDDTYsJQHk/exec",
     "https://script.google.com/macros/s/AKfycbxeQ8nUgqUuWyWH9F7skjbEzmWW3aNOd_MJRy-_Mcu94Ix6z_DvUNYM2ZzC5mfJJDMW/exec",
 
     {
