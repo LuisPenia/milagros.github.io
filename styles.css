@@ -148,3 +148,12 @@ td {
     /*height: 200px;  Adjust height as needed */
     overflow-y: scroll; /* Enable vertical scrolling */
 }
+
+#submitForm {
+    background-image: url('./whatsapp.png');
+    background-size: contain; /* Ajustar la imagen al tamaño del botón */
+    background-repeat: no-repeat; /* Evitar que la imagen se repita */
+    border: 10px; /* Eliminar el borde del botón */
+    padding: 10px; /* Eliminar el relleno del botón */
+    cursor: pointer; /* Indicar que el elemento es un botón */
+  }

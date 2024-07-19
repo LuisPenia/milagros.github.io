@@ -16,6 +16,8 @@ const form1       = document.getElementById('form1');
 const parrafo     = document.getElementById('parrafo-a-modificar');
 const bienvenida  = document.getElementById('bloqueInicial');
 
+const whatsapp = document.getElementById('whatsapp');
+
 // Deshabilitar el botón inicialmente
 botonDetalle.disabled   = true;
 botonIngreso.disabled   = true;
@@ -406,8 +408,17 @@ function validarFormulario(event) {
   }
 }
 
-  const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
-  form1SubmitButton.addEventListener("click", handleSubmitForm1,validarFormulario);
+
+
+
+
+
+
+
+
+
+const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
+form1SubmitButton.addEventListener("click", handleSubmitForm1);
 
 function handleSubmitForm1(e) {
   e.preventDefault();
@@ -416,11 +427,20 @@ function handleSubmitForm1(e) {
   validarFormulario(texarea.value);
   texarea.value = texarea.value.replace(/\n/g, '¦');
 
+  const formatearMensaje = () => {
+    const datos = texarea.value.split('¦');
+    return `Almacen Milagros: ${listaClientes[valorSeleccionado-2].Cliente}%0A___oo0_(o-o)_0oo___%0A${datos.join('%0A')}`;
+  };
+
+
   console.log('dentro del submit');
   parrafo.innerText="espere...";
 
   const formEle = document.querySelector("form");
   const formDatab = new FormData(formEle);
+
+     //whatsapp.href = "https://wa.me/56991037618?text=Hola, que tal%0APrueba ..."; // Asignar el nuevo href al enlace
+    window.open(`https://wa.me/56991037618?text=${formatearMensaje()}`);   // Abrir el enlace en una nueva pestaña
 
   fetch(
     "https://script.google.com/macros/s/AKfycbxeQ8nUgqUuWyWH9F7skjbEzmWW3aNOd_MJRy-_Mcu94Ix6z_DvUNYM2ZzC5mfJJDMW/exec",
@@ -435,11 +455,12 @@ function handleSubmitForm1(e) {
     console.log(data);
     parrafo.innerText="Datos enviados exitosamente";
     texarea.value='';
+    handleWhatsAppLink();
   })
   .catch((error) => {
     console.log(error);
     texarea.value='';
-    parrafo.innerText="Se enviaron los Datos";
+    parrafo.innerText="Se enviaron los Datos";    
   });
 
 };
