@@ -410,13 +410,6 @@ function validarFormulario(event) {
 
 
 
-
-
-
-
-
-
-
 const form1SubmitButton = document.querySelector("#form1 button[type='submit']");
 form1SubmitButton.addEventListener("click", handleSubmitForm1);
 
@@ -429,7 +422,7 @@ function handleSubmitForm1(e) {
 
   const formatearMensaje = () => {
     const datos = texarea.value.split('¦');
-    return `Almacen Milagros: ${listaClientes[valorSeleccionado-2].Cliente}%0A___oo0_(o-o)_0oo___%0A${datos.join('%0A')}`;
+    return `Almacen Milagros: ${listaClientes[valorSeleccionado-2].Cliente}%0A___m_(o.o)_m___%0A${datos.join('%0A')}`;
   };
 
 
