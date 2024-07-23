@@ -422,7 +422,7 @@ function handleSubmitForm1(e) {
 
   const formatearMensaje = () => {
     const datos = texarea.value.split('¦');
-    return `_m_(o.o)_m_ ${listaClientes[valorSeleccionado-2].Cliente}%0A_    _%0A${datos.join('%0A')}`;
+    return `m(o.o)m : ${listaClientes[valorSeleccionado-2].Cliente}%0A${datos.join('%0A')}`;
   };
 
 
