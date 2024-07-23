@@ -20,7 +20,7 @@
 }
 
 .container div{
-    height: 10vmin;
+    height: 12vmin;
     text-align: left;
     display: flex;
     align-items: center;
@@ -45,7 +45,7 @@
 }
 
 .container form div{
-    width: 30vmin;
+    width: 28vmin;
     display: flex;
     justify-content: center;
 
@@ -106,6 +106,7 @@ button:active {
 }
 
 textarea{
+    font-size: large;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;

@@ -422,7 +422,7 @@ function handleSubmitForm1(e) {
 
   const formatearMensaje = () => {
     const datos = texarea.value.split('¦');
-    return `Almacen Milagros: ${listaClientes[valorSeleccionado-2].Cliente}%0A___m_(o.o)_m___%0A${datos.join('%0A')}`;
+    return `_m_(o.o)_m_ ${listaClientes[valorSeleccionado-2].Cliente}%0A_    _%0A${datos.join('%0A')}`;
   };
 
 
