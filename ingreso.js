@@ -359,7 +359,8 @@ function manejoEspacios(event){
 
 function validarFormulario(event) {
   const lineas = event.split('\n');
-  const regexLinea = /^[a-zA-Z0-9 ]{1,25}(?<!\d) [0-9]{1,9}$/;
+  //const regexLinea = /^[a-zA-Z0-9 ]{1,25}(?<!\d) [0-9]{1,9}$/;
+  const regexLinea = /^[a-zA-Z0-9 áéíóúÁÉÍÓÚüÜñÑ]{1,25}(?<!\d) [0-9]{1,9}$/;
 
   if (lineas.length>21){
     alert(`Esta ingresando demaciados productos, solo 20 por vez`);
