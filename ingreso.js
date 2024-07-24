@@ -433,7 +433,7 @@ function handleSubmitForm1(e) {
   const formDatab = new FormData(formEle);
 
      //whatsapp.href = "https://wa.me/56991037618?text=Hola, que tal%0APrueba ..."; // Asignar el nuevo href al enlace
-    window.open(`https://wa.me/56991037618?text=${formatearMensaje()}`);   // Abrir el enlace en una nueva pestaña
+    window.open(`https://wa.me/56977893163?text=${formatearMensaje()}`);   // Abrir el enlace en una nueva pestaña
 
   fetch(
     "https://script.google.com/macros/s/AKfycbxeQ8nUgqUuWyWH9F7skjbEzmWW3aNOd_MJRy-_Mcu94Ix6z_DvUNYM2ZzC5mfJJDMW/exec",
