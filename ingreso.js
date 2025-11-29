@@ -210,7 +210,7 @@ miSelect.addEventListener('change', function() {
 botonName.addEventListener('click', function(event) {
   event.preventDefault(); // Evita que el botón envíe un formulario y recargue la página
 
-  bienvenida.innerText = "espere carga de datos..."
+  bienvenida.innerText = "espere carga de datos... :)"
 
   console.log("Hola EndPoint");
 
